@@ -32,7 +32,6 @@ module.exports = {
 
   async fn(inputs) {
     const { values } = inputs;
-
     if (values.user) {
       values.userId = values.user.id;
     }

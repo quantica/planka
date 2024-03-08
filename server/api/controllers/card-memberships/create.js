@@ -63,7 +63,7 @@ module.exports = {
     }
 
     const isBoardMember = await sails.helpers.users.isBoardMember(inputs.userId, card.boardId);
-
+    const user = await sails.helpers.users.getOne(inputs.userId);
     if (!isBoardMember) {
       throw Errors.USER_NOT_FOUND;
     }
@@ -72,11 +72,18 @@ module.exports = {
       .with({
         values: {
           card,
-          userId: inputs.userId,
+          user,
         },
         request: this.req,
       })
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
+
+    await sails.helpers.mail.sendCardAssign.with({
+      to: user.email,
+      name: user.name,
+      cardId: card.id,
+      cardName: card.name,
+    });
 
     return {
       item: cardMembership,

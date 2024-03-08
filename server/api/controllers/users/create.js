@@ -94,6 +94,12 @@ module.exports = {
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
 
+    await sails.helpers.mail.sendNewUser.with({
+      to: values.email,
+      name: values.name,
+      password: values.password,
+    });
+
     return {
       item: user,
     };

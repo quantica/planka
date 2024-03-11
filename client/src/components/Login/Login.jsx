@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Form, Grid, Header, Message } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';
+import quantica from '../../assets/images/quantica.svg';
 
 import { useForm } from '../../hooks';
 import { isUsername } from '../../utils/validator';
@@ -144,12 +145,9 @@ const Login = React.memo(
             <Grid verticalAlign="middle" className={styles.fullHeightPaddingFix}>
               <Grid.Column>
                 <div className={styles.loginWrapper}>
-                  <Header
-                    as="h1"
-                    textAlign="center"
-                    content={t('common.logInToPlanka')}
-                    className={styles.formTitle}
-                  />
+                  <div className={styles.loginLogo}>
+                    <img src={quantica} alt="Quantica" />
+                  </div>
                   <div>
                     {message && (
                       <Message
@@ -228,7 +226,7 @@ const Login = React.memo(
           >
             <div className={styles.descriptionWrapperOverlay} />
             <div className={styles.descriptionWrapper}>
-              <Header inverted as="h1" content="Planka" className={styles.descriptionTitle} />
+              <Header inverted as="h1" content="Quantica" className={styles.descriptionTitle} />
               <Header
                 inverted
                 as="h2"

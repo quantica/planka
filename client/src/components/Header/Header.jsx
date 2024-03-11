@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Menu } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
-import quantica from '../../assets/images/quantica.svg';
+import quantica from '../../assets/images/quantica-white.svg';
 
 import Paths from '../../constants/Paths';
 import NotificationsStep from './NotificationsStep';

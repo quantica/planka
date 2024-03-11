@@ -1,6 +1,6 @@
 :global(#app) {
   .cover {
-    background: url("../../assets/images/cover.jpg") center / cover;
+    background: url('../../assets/images/cover.jpg') center / cover;
   }
 
   .descriptionSubtitle {
@@ -63,5 +63,11 @@
 
   .wrapper {
     background: #fff;
+
+    .loginLogo {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 40px;
+    }
   }
 }

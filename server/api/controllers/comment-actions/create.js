@@ -63,6 +63,29 @@ module.exports = {
       request: this.req,
     });
 
+    const cardMemberships = await sails.helpers.cardSubscriptions.getMany({
+      cardId: card.id,
+    });
+
+    const membershipsToSendEmail = await Promise.all(
+      cardMemberships
+        .filter(({ userId }) => userId !== currentUser.id)
+        .map(({ userId }) => sails.helpers.users.getOne(userId)),
+    );
+
+    await Promise.all(
+      membershipsToSendEmail.map((membership) =>
+        sails.helpers.mail.sendCardCommentAction.with({
+          to: membership.email,
+          name: membership.name,
+          cardId: card.id,
+          cardName: card.name,
+          from: currentUser.name,
+          comment: inputs.text,
+        }),
+      ),
+    );
+
     return {
       item: action,
     };

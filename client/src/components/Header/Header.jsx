@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Menu } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
+import quantica from '../../assets/images/quantica.svg';
 
 import Paths from '../../constants/Paths';
 import NotificationsStep from './NotificationsStep';
@@ -42,7 +43,7 @@ const Header = React.memo(
       <div className={styles.wrapper}>
         {!project && (
           <Link to={Paths.ROOT} className={classNames(styles.logo, styles.title)}>
-            Planka
+            <img src={quantica} alt="" className={styles.cover} />
           </Link>
         )}
         <Menu inverted size="large" className={styles.menu}>

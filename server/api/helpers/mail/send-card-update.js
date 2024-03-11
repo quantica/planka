@@ -36,7 +36,7 @@ module.exports = {
     const info = await transporter.sendMail({
       from: process.env.MAIL_FROM,
       to: values.to,
-      subject: `Você foi atribuido a um novo card - ${values.cardName}`,
+      subject: `Card atualizado - ${values.cardName}`,
       html: `
       <!DOCTYPE html>
       <html>
@@ -56,10 +56,9 @@ module.exports = {
           <div class="container">
           <h1 class="header">Olá, ${values.name}!</h1>
             <div class="content">
-              <p>Novo card atribuido a você.</p>
-              <p>Nome do card: <b>${values.cardName}</b></p>
+              <p>O card <b>${values.cardName}</b> foi atualizado.</p>
               <p>Para abrir clique no botão abaixo:</p>
-              <a href="https://kanban.quanti.ca/cards/${values.cardId}" class="button">Acessar novo card</a>
+              <a href="https://kanban.quanti.ca/cards/${values.cardId}" class="button">Abrir card</a>
             </div>
           </div>
         </body>

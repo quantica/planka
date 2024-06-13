@@ -79,6 +79,43 @@ module.exports = {
       })
       .intercept('userAlreadyBoardMember', () => Errors.USER_ALREADY_BOARD_MEMBER);
 
+    const emailData = {
+      subject: `Você foi convidado para o board: ${board.name}`,
+      html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; text-align: center}
+                p {text-align: left}
+                .header { color: #333; text-align: center; }
+                .content { margin-top: 20px; }
+                .ii a[href] {color: #fff;}
+                .logo {width: 100px}
+                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff !important; text-decoration: none; border-radius: 5px; }
+                a:link { color: #fff; }
+            </style>
+        </head>
+        <body>
+          <div class="container">
+          <h1 class="header">Olá, ${user.name}!</h1>
+            <div class="content">
+              <p>Você foi convidado paara o board <b>${board.name}</b>.</p>
+              <p>Para acessar o board, clique no botão abaixo:</p>
+              <a href="https://board.quanti.ca/boards/${board.id}" class="button">Acessar novo board</a>
+            </div>
+          </div>
+        </body>
+      </html>
+      `,
+    };
+
+    await sails.helpers.utils.sendEmail.with({
+      ...emailData,
+      to: user.email,
+    });
+
     return {
       item: boardMembership,
     };

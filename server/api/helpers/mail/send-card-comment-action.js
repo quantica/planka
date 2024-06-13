@@ -69,7 +69,7 @@ module.exports = {
               <i>${values.comment}</i>
               <br />
               <p>Para abrir clique no botão abaixo:</p>
-              <a href="https://kanban.quanti.ca/cards/${values.cardId}" class="button">Abrir card</a>
+              <a href="https://board.quanti.ca/cards/${values.cardId}" class="button">Abrir card</a>
             </div>
           </div>
         </body>

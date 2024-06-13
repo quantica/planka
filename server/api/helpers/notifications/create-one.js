@@ -20,23 +20,69 @@ const buildAndSendEmail = async (board, card, action, actorUser, notifiableUser)
   switch (action.type) {
     case Action.Types.MOVE_CARD:
       emailData = {
-        subject: `${actorUser.name} moveu ${card.name} de ${action.data.fromList.name} para ${action.data.toList.name} no board ${board.name}`,
-        html:
-          `<p>${actorUser.name} moveu ` +
-          `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
-          `de ${action.data.fromList.name} para ${action.data.toList.name} ` +
-          `no <a href="${process.env.BASE_URL}/boards/${board.id}">board ${board.name}</a></p>`,
+        subject: `Board ${board.name} - Card [${card.name}] foi movido`,
+        html: `
+            <!DOCTYPE html>
+            <html>
+              <head>
+                  <style>
+                      body { font-family: Arial, sans-serif; }
+                      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; text-align: center}
+                      p {text-align: left}
+                      .header { color: #333; text-align: center; }
+                      .content { margin-top: 20px; }
+                      .ii a[href] {color: #fff;}
+                      .logo {width: 100px}
+                      .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff !important; text-decoration: none; border-radius: 5px; }
+                      a:link { color: #fff; }
+                  </style>
+              </head>
+              <body>
+                <div class="container">
+                <h1 class="header">Olá, ${notifiableUser.name}!</h1>
+                  <div class="content">
+                    <p><b>${actorUser.name}</b> moveu o card <b>${card.name}</b> da coluna <b>${action.data.fromList.name}</b> para coluna <b>${action.data.toList.name}</b></p>
+                    <p>Para abrir o card, clique no botão abaixo:</p>
+                    <a href="https://board.quanti.ca/cards/${card.id}" class="button">Acessar card</a>
+                  </div>
+                </div>
+              </body>
+            </html>`,
       };
 
       break;
     case Action.Types.COMMENT_CARD:
       emailData = {
-        subject: `${actorUser.name} left a new comment to ${card.name} on ${board.name}`,
-        html:
-          `<p>${actorUser.name} left a new comment to ` +
-          `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
-          `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>` +
-          `<p>${action.data.text}</p>`,
+        subject: `Board ${board.name} - Card [${card.name}] tem um novo comentário de ${actorUser.name}`,
+        html: `
+            <!DOCTYPE html>
+            <html>
+              <head>
+                  <style>
+                      body { font-family: Arial, sans-serif; }
+                      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; text-align: center}
+                      p {text-align: left}
+                      .header { color: #333; text-align: center; }
+                      .content { margin-top: 20px; }
+                      .ii a[href] {color: #fff;}
+                      .logo {width: 100px}
+                      .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff !important; text-decoration: none; border-radius: 5px; }
+                      a:link { color: #fff; }
+                  </style>
+              </head>
+              <body>
+                <div class="container">
+                <h1 class="header">Olá, ${notifiableUser.name}!</h1>
+                  <div class="content">
+                    <p><b>${actorUser.name}</b> fez o seguinte comentário no card <b>${card.name}</b>:</p>
+                    <p><i>${action.data.text}</i></p>
+                    <br />
+                    <p>Para abrir o card, clique no botão abaixo:</p>
+                    <a href="https://board.quanti.ca/cards/${card.id}" class="button">Acessar card</a>
+                  </div>
+                </div>
+              </body>
+            </html>`,
       };
 
       break;

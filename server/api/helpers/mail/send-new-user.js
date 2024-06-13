@@ -32,7 +32,7 @@ module.exports = {
     const info = await transporter.sendMail({
       from: process.env.MAIL_FROM,
       to: values.to,
-      subject: 'Você foi convidado para o kanban.quanti.ca',
+      subject: 'Você foi convidado para o board.quanti.ca',
       html: `
       <!DOCTYPE html>
       <html>
@@ -55,7 +55,7 @@ module.exports = {
               <p>Sua conta foi criada com sucesso.</p>
               <p>Sua senha é: <b>${values.password}</b></p>
               <p>Para começar, clique no botão abaixo:</p>
-              <a href="https://kanban.quanti.ca" class="button">Acessar Minha Conta</a>
+              <a href="https://board.quanti.ca" class="button">Acessar Minha Conta</a>
             </div>
           </div>
         </body>

@@ -58,7 +58,7 @@ module.exports = {
             <div class="content">
               <p>O card <b>${values.cardName}</b> foi atualizado.</p>
               <p>Para abrir clique no botão abaixo:</p>
-              <a href="https://kanban.quanti.ca/cards/${values.cardId}" class="button">Abrir card</a>
+              <a href="https://board.quanti.ca/cards/${values.cardId}" class="button">Abrir card</a>
             </div>
           </div>
         </body>

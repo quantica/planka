@@ -85,7 +85,7 @@ module.exports = {
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
 
     const emailData = {
-      subject: `Você foi atribuido a um novo card`,
+      subject: `Novo card no board ${board.name}`,
       html: `
       <!DOCTYPE html>
       <html>
@@ -98,7 +98,8 @@ module.exports = {
                 .content { margin-top: 20px; }
                 .ii a[href] {color: #fff;}
                 .logo {width: 100px}
-                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff; text-decoration: none; border-radius: 5px; }
+                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff !important; text-decoration: none; border-radius: 5px; }
+                a:link { color: #fff; }
             </style>
         </head>
         <body>
@@ -109,7 +110,7 @@ module.exports = {
               <p>Board: <b>${board.name}</b></p>
               <p>Nome do card: <b>${card.name}</b></p>
               <p>Para abrir clique no botão abaixo:</p>
-              <a href="https://kanban.quanti.ca/cards/${card.id}" class="button">Acessar novo card</a>
+              <a href="https://board.quanti.ca/cards/${card.id}" class="button">Acessar novo card</a>
             </div>
           </div>
         </body>
@@ -119,7 +120,7 @@ module.exports = {
 
     await sails.helpers.utils.sendEmail.with({
       ...emailData,
-      to: values.email,
+      to: user.email,
     });
 
     return {

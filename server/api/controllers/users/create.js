@@ -111,7 +111,8 @@ module.exports = {
                 .content { margin-top: 20px; }
                 .ii a[href] {color: #fff;}
                 .logo {width: 100px}
-                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff; text-decoration: none; border-radius: 5px; }
+                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff !important; text-decoration: none; border-radius: 5px; }
+                a:link { color: #fff !important; }
             </style>
         </head>
         <body>
@@ -119,10 +120,11 @@ module.exports = {
           <h1 class="header">Bem-Vindo(a) ${values.name}!</h1>
             <div class="content">
               <p>Sua conta foi criada com sucesso.</p>
-              <p>Sua senha é: <b>${values.password}</b></p>
+              <p>Seu login: <b>${values.email}</b></p>
+              <p>Sua senha: <b>${values.password}</b></p>
               <p>Para começar, clique no botão abaixo:</p>
+              <br />
               <a href="https://board.quanti.ca" class="button">Acessar Minha Conta</a>
-              <p>${action.data.text}</p>
             </div>
           </div>
         </body>

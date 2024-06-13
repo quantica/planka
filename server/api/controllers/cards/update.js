@@ -199,27 +199,6 @@ module.exports = {
       throw Errors.CARD_NOT_FOUND;
     }
 
-    // const cardMemberships = await sails.helpers.cardSubscriptions.getMany({
-    //   cardId: card.id,
-    // });
-
-    // const membershipsToSendEmail = await Promise.all(
-    //   cardMemberships
-    //     .filter(({ userId }) => userId !== currentUser.id)
-    //     .map(({ userId }) => sails.helpers.users.getOne(userId)),
-    // );
-
-    // await Promise.all(
-    //   membershipsToSendEmail.map((membership) =>
-    //     sails.helpers.mail.sendCardUpdate.with({
-    //       to: membership.email,
-    //       name: membership.name,
-    //       cardId: card.id,
-    //       cardName: card.name,
-    //     }),
-    //   ),
-    // );
-
     return {
       item: card,
     };

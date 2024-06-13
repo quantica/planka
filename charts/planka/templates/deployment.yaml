@@ -55,14 +55,32 @@ spec:
             - mountPath: /app/private/attachments
               subPath: attachments
               name: planka
+          {{- if .Values.securityContext.readOnlyRootFilesystem }}
+            - mountPath: /app/logs
+              subPath: app-logs
+              name: emptydir
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          {{- if not .Values.postgresql.enabled }}
+          {{- if .Values.existingDburlSecret }}
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingDburlSecret }}
+                  key: uri
+          {{- else }}
+            - name: DATABASE_URL
+              value: {{ required "If the included postgresql deployment is disabled you need to provide an existing secret in .Values.existingDburlSecret or define a Database URL in 'dburl'" .Values.dburl }}
+          {{- end }}
+          {{- else }}
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: planka-postgresql-svcbind-custom-user
                   key: uri
+          {{- end }}
             - name: BASE_URL
               {{- if .Values.baseUrl }}
               value: {{ .Values.baseUrl }}
@@ -134,3 +152,7 @@ spec:
     {{- else }}
           emptyDir: {}
     {{- end }}
+    {{- if .Values.securityContext.readOnlyRootFilesystem }}
+        - name: emptydir
+          emptyDir: {}
+     {{- end }}

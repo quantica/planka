@@ -14,11 +14,15 @@ If you want to fully uninstall this chart including the data, follow [these step
 
 ## Usage
 
+If you just want to spin up an instance using help, please see [these docs](https://docs.planka.cloud/docs/installation/kubernetes/helm_chart/). If you want to make changes to the chart locally, and deploy them, see the below section.
+
+## Local Building and Using the Chart
+
 The basic usage of the chart can be found below:
 
 ```bash
-git clone https://github.com/Chris-Greaves/planka-helm-chart.git
-cd planka-helm-chart
+git clone https://github.com/plankanban/planka.git
+cd planka/charts/planka
 helm dependency build
 export SECRETKEY=$(openssl rand -hex 64)
 helm install planka . --set secretkey=$SECRETKEY  \
@@ -46,7 +50,7 @@ helm install planka . --set secretkey=$SECRETKEY \
 --set admin_email="demo@demo.demo"  \
 --set admin_password="demo"  \
 --set admin_name="Demo Demo" \
---set admin_username="demo"
+--set admin_username="demo" \
 --set ingress.enabled=true \
 --set ingress.hosts[0].host=planka.example.dev \
 
@@ -55,7 +59,7 @@ helm install planka . --set secretkey=$SECRETKEY \
 --set admin_email="demo@demo.demo"  \
 --set admin_password="demo"  \
 --set admin_name="Demo Demo" \
---set admin_username="demo"
+--set admin_username="demo" \
 --set ingress.enabled=true \
 --set ingress.hosts[0].host=planka.example.dev \
 --set ingress.tls[0].secretName=planka-tls \
@@ -76,6 +80,7 @@ admin_name: "Demo Demo"
 admin_username: "demo"
 # Admin user
 
+# Ingress
 ingress:
   enabled: true
   hosts:

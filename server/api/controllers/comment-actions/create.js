@@ -32,12 +32,12 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const boardMembership = await BoardMembership.findOne({
-      boardId: card.boardId,
+      boardId: board.id,
       userId: currentUser.id,
     });
 
@@ -55,6 +55,9 @@ module.exports = {
     };
 
     const action = await sails.helpers.actions.createOne.with({
+      project,
+      board,
+      list,
       values: {
         ...values,
         card,
@@ -63,28 +66,28 @@ module.exports = {
       request: this.req,
     });
 
-    const cardMemberships = await sails.helpers.cardSubscriptions.getMany({
-      cardId: card.id,
-    });
+    // const cardMemberships = await sails.helpers.cardSubscriptions.getMany({
+    //   cardId: card.id,
+    // });
 
-    const membershipsToSendEmail = await Promise.all(
-      cardMemberships
-        .filter(({ userId }) => userId !== currentUser.id)
-        .map(({ userId }) => sails.helpers.users.getOne(userId)),
-    );
+    // const membershipsToSendEmail = await Promise.all(
+    //   cardMemberships
+    //     .filter(({ userId }) => userId !== currentUser.id)
+    //     .map(({ userId }) => sails.helpers.users.getOne(userId)),
+    // );
 
-    await Promise.all(
-      membershipsToSendEmail.map((membership) =>
-        sails.helpers.mail.sendCardCommentAction.with({
-          to: membership.email,
-          name: membership.name,
-          cardId: card.id,
-          cardName: card.name,
-          from: currentUser.name,
-          comment: inputs.text,
-        }),
-      ),
-    );
+    // await Promise.all(
+    //   membershipsToSendEmail.map((membership) =>
+    //     sails.helpers.mail.sendCardCommentAction.with({
+    //       to: membership.email,
+    //       name: membership.name,
+    //       cardId: card.id,
+    //       cardName: card.name,
+    //       from: currentUser.name,
+    //       comment: inputs.text,
+    //     }),
+    //   ),
+    // );
 
     return {
       item: action,

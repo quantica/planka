@@ -21,6 +21,22 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -52,6 +68,20 @@ module.exports = {
       inputs.request,
     );
 
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'cardMembershipCreate',
+      data: {
+        item: cardMembership,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: inputs.actorUser,
+    });
+
     const cardSubscription = await CardSubscription.create({
       cardId: cardMembership.cardId,
       userId: cardMembership.userId,
@@ -72,6 +102,8 @@ module.exports = {
         },
         inputs.request,
       );
+
+      // TODO: send webhooks
     }
 
     return cardMembership;

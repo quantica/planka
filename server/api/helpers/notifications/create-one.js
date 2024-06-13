@@ -20,12 +20,12 @@ const buildAndSendEmail = async (board, card, action, actorUser, notifiableUser)
   switch (action.type) {
     case Action.Types.MOVE_CARD:
       emailData = {
-        subject: `${actorUser.name} moved ${card.name} from ${action.data.fromList.name} to ${action.data.toList.name} on ${board.name}`,
+        subject: `${actorUser.name} moveu ${card.name} de ${action.data.fromList.name} para ${action.data.toList.name} no board ${board.name}`,
         html:
-          `<p>${actorUser.name} moved ` +
+          `<p>${actorUser.name} moveu ` +
           `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
-          `from ${action.data.fromList.name} to ${action.data.toList.name} ` +
-          `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>`,
+          `de ${action.data.fromList.name} para ${action.data.toList.name} ` +
+          `no <a href="${process.env.BASE_URL}/boards/${board.id}">board ${board.name}</a></p>`,
       };
 
       break;

@@ -84,14 +84,43 @@ module.exports = {
       })
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
 
-    // if (user.id !== currentUser.id) {
-    //   await sails.helpers.mail.sendCardAssign.with({
-    //     to: user.email,
-    //     name: user.name,
-    //     cardId: card.id,
-    //     cardName: card.name,
-    //   });
-    // }
+    const emailData = {
+      subject: `Você foi atribuido a um novo card`,
+      html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; text-align: center}
+                p {text-align: left}
+                .header { color: #333; text-align: center; }
+                .content { margin-top: 20px; }
+                .ii a[href] {color: #fff;}
+                .logo {width: 100px}
+                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff; text-decoration: none; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+          <div class="container">
+          <h1 class="header">Olá, ${user.name}!</h1>
+            <div class="content">
+              <p>Novo card atribuido a você.</p>
+              <p>Board: <b>${board.name}</b></p>
+              <p>Nome do card: <b>${card.name}</b></p>
+              <p>Para abrir clique no botão abaixo:</p>
+              <a href="https://kanban.quanti.ca/cards/${card.id}" class="button">Acessar novo card</a>
+            </div>
+          </div>
+        </body>
+      </html>
+      `,
+    };
+
+    await sails.helpers.utils.sendEmail.with({
+      ...emailData,
+      to: values.email,
+    });
 
     return {
       item: cardMembership,

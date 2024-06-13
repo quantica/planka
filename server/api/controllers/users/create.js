@@ -97,10 +97,42 @@ module.exports = {
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
 
-    await sails.helpers.mail.sendNewUser.with({
+    const emailData = {
+      subject: `Bem vindo ao Board da Quantica`,
+      html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; text-align: center}
+                p {text-align: left}
+                .header { color: #333; text-align: center; }
+                .content { margin-top: 20px; }
+                .ii a[href] {color: #fff;}
+                .logo {width: 100px}
+                .button { display: inline-block; padding: 10px 20px; background-color: #0092db; color: #fff; text-decoration: none; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+          <div class="container">
+          <h1 class="header">Bem-Vindo(a) ${values.name}!</h1>
+            <div class="content">
+              <p>Sua conta foi criada com sucesso.</p>
+              <p>Sua senha é: <b>${values.password}</b></p>
+              <p>Para começar, clique no botão abaixo:</p>
+              <a href="https://board.quanti.ca" class="button">Acessar Minha Conta</a>
+              <p>${action.data.text}</p>
+            </div>
+          </div>
+        </body>
+      </html>
+      `,
+    };
+
+    await sails.helpers.utils.sendEmail.with({
+      ...emailData,
       to: values.email,
-      name: values.name,
-      password: values.password,
     });
 
     return {
